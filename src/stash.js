@@ -65,6 +65,14 @@ StashApi.prototype.createPullRequest = function createPullRequest (projKey, repo
     return utils.ensureJsonResponse(request.postAsync(options))
 };
 
+StashApi.prototype.mergePullRequest = function mergePullRequest (projKey, repoSlug, prId, version) {
+    var options = _.cloneDeep(defaultOptions);
+    options.url = this.buildUrl('/projects/' + projKey + '/repos/' + repoSlug + '/pull-requests/' + prId + '/merge?version=' + version);
+    options.body = '{}';
+    options.headers['Content-Length'] = Buffer.byteLength(options.body, 'utf8');
+    return utils.ensureJsonResponse(request.postAsync(options));
+};
+
 // GROUPS
 StashApi.prototype.getGroupMembers = function getGroupMembers (queryParams) {
     var url = utils.addQueryParams(this.buildUrl('/admin/groups/more-members'), queryParams);
